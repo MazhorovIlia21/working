@@ -1,9 +1,10 @@
 from PyQt6.QtWidgets import *
+from mainw import MainW
 import pymysql
 from data.database import Database
 from ui.login_ui import *
 from data.config import *
-from mainw import MainW
+
 import sys
 
 class AuthorizationWindow(QWidget):
@@ -36,7 +37,7 @@ class AuthorizationWindow(QWidget):
                 else:
                     QMessageBox.warning(self, 'Внимание', 'Проверьте введенные данные')
             except:
-                print("Er")
+                QMessageBox.warning(self, 'Внимание', 'Проверьте введенные данные')
         else:
             QMessageBox.warning(self, 'Внимание', 'Введите логин и пароль')
 

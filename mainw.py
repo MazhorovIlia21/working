@@ -14,7 +14,7 @@ class MainW(QWidget):
         self.ui.setupUi(self)
         self.populate_comboBox()
         self.ui.comboBox.currentTextChanged.connect(self.print_table)
-        self.ui.tableWidget.cellChanged.connect(self.cellChange)
+        self.ui.tableWidget.cellChanged.connect(self.updateData)
 
     def populate_comboBox(self):
         tables = self.db.getTables()
@@ -35,9 +35,14 @@ class MainW(QWidget):
         self.ui.tableWidget.setColumnHidden(0, True)
         self.ui.tableWidget.blockSignals(False)
 
-    def cellChange(self, row, count):
-        tb_name = self.ui.comboBox.currentText()
-
+    def updateData(self, row, column):
+        new_data = self.ui.tableWidget.item(row, column).text()
+        data_column = self.ui.tableWidget.takeHorizontalHeaderItem(column).text()
+        id_data = self.ui.tableWidget.item(row, 0).text()
+        id_column = self.ui.tableWidget.takeHorizontalHeaderItem(0).text()
+        table = self.ui.comboBox.currentText()
+        error = self.db.updateDB(table, new_data, data_column, id_data, id_column)
+        self.print_table()
 
 
 if __name__ == "__main__":
